@@ -8,9 +8,6 @@ scanpy==1.8.1
 einops==0.4.1
 biopython==1.79
 seaborn==0.12.2
-torch==1.13.1
-torchvision==0.14.1
-torchaudio==0.13.1
 pandas==1.4.2
 numba==0.57.1
 numpy==1.21.6
@@ -18,5 +15,4 @@ matplotlib>=3.5.2
 scikit-learn==0.24.1
 scirpy==0.10.1
 plotly==5.10.0
-tabulate==0.8.9
 umap-learn==0.5.1
