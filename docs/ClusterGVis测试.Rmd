@@ -1,0 +1,108 @@
+---
+title: "R Notebook"
+output:
+  html_document:
+    df_print: paged
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*. 
+
+```{r}
+.libPaths("/mnt/ddngs/juz/pipeline/scRNA_10x_pipeline/software/Anaconda3_2023.09_0/envs/Seurat_5.0/lib/R/library")
+setwd("/mnt/ddngs/juz/project/zhulan_reanalysis_seurat4.4_reanalysis/ClusterGVis")
+library(ClusterGVis)
+
+
+#library(SeuratData)
+library(Seurat)
+library(tidyverse)
+library(clusterProfiler)
+#data("pbmc3k.final")
+#pbmc <- UpdateSeuratObject(object = pbmc3k.final)
+pbmc <-  readRDS("/mnt/ddngs/juz/project/zhulan_reanalysis_seurat4.4_reanalysis/06.sub_cluster/sample29_gene5000_mt_15_pca50_Nfeatures3000/SMC_sub_cluster/Smooth_muscle_cell_combined.rds")
+# find markers for every cluster compared to all remaining cells
+# report only the positive ones
+pbmc.markers.all <- Seurat::FindAllMarkers(pbmc,
+                                           only.pos = TRUE,
+                                           min.pct = 0.25,
+                                           logfc.threshold = 0.25)
+
+# get top 10 genes
+pbmc.markers <- pbmc.markers.all %>%
+  dplyr::group_by(cluster) %>%
+  dplyr::top_n(n = 20, wt = avg_log2FC)
+
+# check
+head(pbmc.markers)
+```
+```{r}
+# prepare data from seurat object
+st.data <- prepareDataFromscRNA(object = pbmc,
+                                diffData = pbmc.markers,
+                                showAverage = TRUE)
+
+# check
+str(st.data)
+```
+
+
+```{r}
+library(org.Hs.eg.db)
+
+# enrich for clusters
+enrich <- enrichCluster(object = st.data,
+                        OrgDb = org.Hs.eg.db,
+                        type = "BP",
+                        organism = "hsa",
+                        pvalueCutoff = 0.5,
+                        topn = 5,
+                        seed = 5201314)
+
+# check
+head(enrich)
+```
+
+```{r}
+# add gene name
+markGenes = unique(pbmc.markers$gene)[sample(1:length(unique(pbmc.markers$gene)),40,
+                                             replace = F)]
+
+# line plot
+visCluster(object = st.data,
+           plot.type = "line")
+```
+
+```{r}
+# heatmap plot
+#pdf('sc1.pdf',height = 10,width = 6,onefile = F)
+visCluster(object = st.data,
+           plot.type = "heatmap",
+           column_names_rot = 45,
+           markGenes = markGenes,
+           cluster.order = c(0:13))
+#dev.off()
+```
+```{r}
+# add bar plot
+#pdf('sc2.pdf',height = 10,width = 14,onefile = F)
+visCluster(object = st.data,
+           plot.type = "both",
+           column_names_rot = 45,
+           show_row_dend = F,
+           markGenes = markGenes,
+           markGenes.side = "left",
+           annoTerm.data = enrich,
+           line.side = "left",
+           cluster.order = c(1:14),
+           go.col = rep(jjAnno::useMyCol("stallion",n = 14),each = 5),
+           add.bar = T)
+#dev.off()
+```
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Ctrl+Alt+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Ctrl+Shift+K* to preview the HTML file).
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
