@@ -6,7 +6,9 @@ root: intro
 chapters:
 - file: scanpy_test
 - file: ClusterGVis测试
-- file: notebooks
+- file: QC
+- file: scanpy
+- file: cell_anno
 
 
 
