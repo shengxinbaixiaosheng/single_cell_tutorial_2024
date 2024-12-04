@@ -3,13 +3,18 @@
 
 format: jb-book
 root: intro
-chapters:
-- file: single_cell_source/single_cell_book
-- file: scanpy_test
-- file: ClusterGVis测试
-- file: QC
-- file: scanpy
-- file: cell_anno
+parts:
+ - file: dianzishu
+    sections:
+    - file: single_cell_resource/single_cell_book
+    - file: single_cell_resource/single_cell_ebook
+    caption: Single Cell
+    chapters:
+    - file: scanpy_test
+    - file: ClusterGVis测试
+    - file: QC
+    - file: scanpy
+    - file: cell_anno
 
 
 
