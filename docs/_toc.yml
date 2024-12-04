@@ -4,7 +4,7 @@
 format: jb-book
 root: intro
 parts:
-  caption: Single Cell
+- caption: Tutorials
   chapters:
   - file: dianzishu
     sections:
