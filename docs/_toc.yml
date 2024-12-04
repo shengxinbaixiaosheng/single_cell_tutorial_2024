@@ -4,6 +4,7 @@
 format: jb-book
 root: intro
 chapters:
+- file: single_cell_source/single_cell_book
 - file: scanpy_test
 - file: ClusterGVis测试
 - file: QC
