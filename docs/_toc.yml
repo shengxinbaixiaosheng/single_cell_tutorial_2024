@@ -10,7 +10,7 @@ parts:
     sections:
     - file: single_cell_resource/single_cell_book
     - file: single_cell_resource/single_cell_ebook
-  - file: dianzishu
+  - file: single_cell_analysis
     sections:
     - file: scanpy_test
     - file: ClusterGVis测试
