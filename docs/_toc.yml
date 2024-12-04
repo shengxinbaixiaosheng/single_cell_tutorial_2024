@@ -4,12 +4,14 @@
 format: jb-book
 root: intro
 parts:
- - file: dianzishu
+  caption: Single Cell
+  chapters:
+  - file: dianzishu
     sections:
     - file: single_cell_resource/single_cell_book
     - file: single_cell_resource/single_cell_ebook
-    caption: Single Cell
-    chapters:
+  - file: dianzishu
+    sections:
     - file: scanpy_test
     - file: ClusterGVis测试
     - file: QC
