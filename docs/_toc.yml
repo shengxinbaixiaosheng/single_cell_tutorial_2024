@@ -13,11 +13,11 @@ parts:
   - file: single_cell_analysis
     sections:
     - file: scanpy_test
-    - file: ClusterGVis测试
+    - file: ClusterGVis测试.Rmd
     - file: QC
     - file: scanpy
     - file: cell_anno
-    - file: quality_control
+    - file: quality_control.html
 
 
 
