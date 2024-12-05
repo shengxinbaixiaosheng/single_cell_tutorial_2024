@@ -17,6 +17,7 @@ parts:
     - file: QC
     - file: scanpy
     - file: cell_anno
+    - file: quality_control
 
 
 
